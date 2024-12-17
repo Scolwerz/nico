@@ -1,0 +1,4 @@
+{"timestamp":2229019,"category":"fog.validation","name":"validate_early_event"}
+{"timestamp":2229448,"category":"webcompatreporting","name":"reason_dropdown","extra":{"setting":"disabled"}}
+{"timestamp":2229828,"category":"nimbus_events","name":"validation_failed","extra":{"feature":"accessibilityCache","experiment":"next-generation-accessibility-engine-powering-screen-readers","reason":"invalid-feature"}}
+{"timestamp":2241301,"category":"search.engine.default","name":"changed","extra":{"change_source":"user","new_engine_id":"other-Whoogle","new_load_path":"[https]search.rp1.hu/whoogle.xml","new_submission_url":"","previous_engine_id":"google-b-d","new_display_name":"Whoogle"}}

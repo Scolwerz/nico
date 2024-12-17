@@ -1,0 +1,286 @@
+#!/usr/bin/env bash
+
+
+
+appver="0.1-alpha"
+CALLCOMMAND="nico"
+
+#functions
+function help() {
+	echo "USAGE:"
+	echo "	$CALLCOMMAND [option] [options for the option]"
+	echo "	EXAMPLE: $CALLCOMMAND search qemu"
+	echo "AVAILABLE OPTIONS:"
+	echo "	init - Setup environment and install all dependencies"
+	echo "	install - install a package."
+	echo "	install-local - install local packages."
+	echo "	remove - uninstall a package."
+	echo "	purge - uninstall a package along with its configuration files."
+	echo "	search - search a package."
+	echo "	find - 'apt-file search'."
+	echo "	update - apt update"
+	echo "	upgrade - apt upgrade"
+	echo "	full-upgrade - update + upgrade + clean + flatpak update"
+	echo "	autoclean - clean up apt caches."
+	echo "	clean - same as 'autoclean'."
+	echo "	autoremove - remove packages that are no longer needed."
+	echo "	show - show the information of a package that is installed."
+	echo "	list-installed - list all installed packages."
+	echo "	help - show this help."
+	echo "	install-flatpak - Install a flatpak package"
+	echo "	search-flatpak - Search a flatpak package"
+	echo "	remove-flatpak - Remove flatpak packages"
+	echo "	version - show version and about information."
+	echo "SETTINGS:"
+	echo "	--learning-mode=<on|off> - accepts 'on' or 'off' as values. turns learning mode on or off."
+	echo "You can also use the environment variable 'NICO_LEARN' to toggle learning mode: if it equals 1, learning mode is on."
+	echo " "
+	echo -e "\e[1mIf you don't supply any option, the help and about will be printed.\e[0m"
+}
+function about() {
+	echo "      NICO      "
+	echo "  ==============  "
+	echo "A simple wrapper for nala/apt/flatpak with a syntax similar to apt for ease of use."
+	echo -e "Version: $appver\n"
+	echo "License: MIT"
+}
+
+function config() {
+#	SAVE:
+#	$1=save
+#	$2=setting to add to config
+#	$3=optional text to printed
+#	DELETE:
+#	$1=delete
+#	$2=setting to delete
+#	$3=optional text to print.
+#	LOAD:
+#	$1=load
+#	$2=setting to load
+#	$3=setting name when loading
+#
+	local DIR="$(pwd)"
+	if [[ ! -d "${HOME}/.config/nico/" ]]; then
+		mkdir -p "${HOME}/.config/nico/"
+	fi
+	local CONF="${HOME}/.config/nico/"
+	cd "$CONF"
+	if [[ ! -f config ]]; then
+		touch config
+	fi
+	if [[ "$1" == "save" ]]; then
+		echo "$2" >> config
+		if [[ ! -z "$3" ]]; then
+			echo -e "$3"
+		fi
+	elif [[ "$1" == "delete" ]]; then
+		sed -i "/$2/d" config
+		if [[ ! -z "$3" ]]; then
+			echo -e "$3"
+		fi
+	elif [[ "$1" == "load" ]]; then
+		if cat config | grep $2 >/dev/null ; then
+			SETTING=$3
+		else
+			echo -e "\e[31m\e[1mERROR: \e[0m\e[31mfailed to find requested setting!\e[0m"
+			exit 1
+		fi
+	elif [[ "$1" == "load-all" ]]; then
+		SETTING="$(cat config)"
+	elif [[ "$1" == "delete-all" ]]; then
+		echo -n "" > config
+	fi
+	cd "$DIR"
+}
+
+if [[ "$1" == '' ]]; then
+	echo -e "\e[31m\e[1mERROR:\e[0m\e[31m no operation specified!\e[0m"
+	echo -e "\e[1mrun \"$CALLCOMMAND --help\" for help\e[0m"
+	exit 0
+fi
+if [[ "$NICO_LEARN" == 1 ]]; then
+	LEARN=1
+fi
+while [[ "$1" != '' ]]; do
+	config load-all
+	case $SETTING in
+		learn)
+			LEARN=1
+		;;
+	esac
+	case ${1,,} in
+		--learning-mode*)
+			MODE=$(echo $1 | sed -e 's/^[^=]*=//g')
+			if [[ "$MODE" == "on" ]]; then
+				config save "learn"
+				echo -e "learning mode on"
+			elif [[ "$MODE" == "off" ]]; then
+				config delete "learn"
+				echo "learning mode off"
+			else
+				echo -e "\e[31m\e[1mERROR:\e[0m\e[31m Invalid option '$MODE' for option '--learning-mode'!\e[0m"
+			fi
+			shift
+		;;
+		--config)
+			case $2 in
+				clear)
+					config delete-all || exit 1
+					echo "configuration cleared succesfully!"
+					break
+				;;
+				*)
+				echo -e "\e[31m\e[1mERROR:\e[0m\e[31m Invalid option '$MODE' for option '--config'!\e[0m"
+				break
+				;;
+			esac
+			shift
+		;;
+		install)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1msudo nala install \"$@\"\e[0m"
+			fi
+			sudo nala install "$@"
+			break
+		;;
+		install-local)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is \e[1msudo dpkg -i \"$@\"\e[0m"
+			fi
+			sudo dpkg -i "$@"
+			break
+		;;
+		remove)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1msudo nala remove \"$@\"\e[0m"
+			fi
+			sudo nala remove "$@"
+			break
+		;;
+		purge)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1msudo apt purge \"$@\"\e[0m"
+			fi
+			sudo apt purge "$@"
+			break
+		;;
+		search)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1mapt search \"$@\"\e[0m"
+			fi
+			apt search "$@"
+			break
+		;;
+		find)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1msudo apt-file search \"$@\"\e[0m"
+			fi
+			sudo apt-file search "$@"
+			break
+		;;
+		update)
+			if [[ $LEARN == 1 ]]; then
+				echo -e "The command being run is: \e[1mapt update\e[0m"
+			fi
+			sudo nala update
+			break
+		;;
+		upgrade)
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1msudo pacman -Su\e[0m"
+			fi
+			sudo nala upgrade
+			break
+		;;
+		full-upgrade)
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "Performing full system upgrade"
+			fi
+			sudo nala upgrade -y
+			sudo apt autoclean -y
+			su - $USER -c "flatpak update -y"
+			su - $USER -c "flatpak uninstall --unused -y"
+			break
+		;;
+		autoclean|clean)
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1mapt autoclean\e[0m"
+			fi
+			sudo apt autoclean
+			break
+		;;
+		autoremove)
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1msudo apt autoremove \"$@\"\e[0m"
+			fi
+			sudo apt autoremove
+			break
+		;;
+		list-installed)
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1mapt list --installed\e[0m"
+			fi
+			sudo apt list --installed
+			break
+		;;
+		show)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1msudo apt show \"$@\"\e[0m"
+			fi
+			sudo apt show "$@"
+			break
+		;;
+		install-flatpak)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1mflatpak install \"$@\"\e[0m"
+			fi
+			flatpak install "$@"
+			break
+		;;
+		remove-flatpak)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1mflatpak remove \"$@\"\e[0m"
+			fi
+			flatpak remove "$@"
+			break
+		;;
+		search-flatpak)
+			shift
+			if [[ "$LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1mflatpak search \"$@\"\e[0m"
+			fi
+			flatpak search "$@"
+			break
+		;;
+		init)
+			shift
+			if [[ "LEARN" == 1 ]]; then
+				echo -e "The command being run is: \e[1mnico init\e[0m"
+			fi
+			sudo apt install nala flatpak -y
+			flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+			break
+		;;
+		help|-h|--help|-help)
+			help
+			exit 0
+		;;
+		version|-v|--version)
+            about
+            exit 0
+        ;;
+        *)
+            echo -e "\e[1m\e[31minvalid option \"$1\"!\e[0m"
+            exit 0
+	esac
+	#shift
+done

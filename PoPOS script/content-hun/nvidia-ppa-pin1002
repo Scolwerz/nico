@@ -1,0 +1,4 @@
+# Never prefer other packages from the Ulyssa repository
+Package: *
+Pin: release o=LP-graphics-drivers-PPA
+Pin-Priority: 1002

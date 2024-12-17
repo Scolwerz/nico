@@ -1,0 +1,3 @@
+[User permissions]
+Action=org.corectrl.*
+ResultActive=yes

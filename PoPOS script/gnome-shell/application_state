@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<application-state>
+  <context id="">
+    <application id="streamlabels.desktop" score="0" last-seen="1703870912"/>
+    <application id="gnome-control-center.desktop" score="20" last-seen="1703874053"/>
+    <application id="io.freetubeapp.FreeTube.desktop" score="195" last-seen="1703872517"/>
+    <application id="org.corectrl.CoreCtrl.desktop" score="10" last-seen="1703871894"/>
+    <application id="xdg-desktop-portal-gnome.desktop" score="1" last-seen="1703870917"/>
+    <application id="com.github.tchx84.Flatseal.desktop" score="2" last-seen="1703846820"/>
+    <application id="net.lutris.Lutris.desktop" score="4" last-seen="1703807700"/>
+    <application id="org.gnome.clocks.desktop" score="2" last-seen="1703874827"/>
+    <application id="steam.desktop" score="7" last-seen="1703871014"/>
+    <application id="org.gnome.Software.desktop" score="0" last-seen="1703806316"/>
+    <application id="com.brave.Browser.desktop" score="0" last-seen="1703846822"/>
+    <application id="com.discordapp.Discord.desktop" score="409" last-seen="1703873115"/>
+    <application id="gnome-initial-setup.desktop" score="2" last-seen="1703799300"/>
+    <application id="org.gnome.meld.desktop" score="32" last-seen="1703873648"/>
+    <application id="org.gnome.Calculator.desktop" score="1" last-seen="1703846370"/>
+    <application id="io.gitlab.librewolf-community.desktop" score="276" last-seen="1703872979"/>
+    <application id="org.keepassxc.KeePassXC.desktop" score="4" last-seen="1703846372"/>
+    <application id="org.gnome.Terminal.desktop" score="399" last-seen="1703874958"/>
+    <application id="org.videolan.VLC.desktop" score="0" last-seen="1703856114"/>
+    <application id="org.qbittorrent.qBittorrent.desktop" score="3" last-seen="1703871723"/>
+    <application id="org.gnome.DiskUtility.desktop" score="59" last-seen="1703874924"/>
+    <application id="gnome-system-monitor.desktop" score="8" last-seen="1703874948"/>
+    <application id="vivaldi-stable.desktop" score="127" last-seen="1703872234"/>
+    <application id="pavucontrol.desktop" score="8" last-seen="1703873063"/>
+    <application id="org.gnome.FileRoller.desktop" score="0" last-seen="1703857148"/>
+    <application id="com.obsproject.Studio.desktop" score="45" last-seen="1703873650"/>
+    <application id="sh.cider.Cider.desktop" score="5" last-seen="1703871089"/>
+    <application id="org.gnome.baobab.desktop" score="69" last-seen="1703805136"/>
+    <application id="simple-scan.desktop" score="1" last-seen="1703807486"/>
+    <application id="org.gnome.gedit.desktop" score="739" last-seen="1703874958"/>
+    <application id="org.gnome.Nautilus.desktop" score="350" last-seen="1703874757"/>
+  </context>
+</application-state>

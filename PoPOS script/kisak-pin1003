@@ -1,0 +1,4 @@
+# Kisak Fresh PPA
+Package: *
+Pin: release o=LP-PPA-kisak-kisak-mesa
+Pin-Priority: 1003

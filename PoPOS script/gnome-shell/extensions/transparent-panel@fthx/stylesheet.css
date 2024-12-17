@@ -1,0 +1,12 @@
+.panel-normal-font StLabel {
+    font-weight: normal;
+}
+
+.panel-transparent-reduced {
+    background-color: rgba(0,0,0,0.6);
+    height: 28px;
+}
+
+.straight-panel-corner.panel-corner {
+    -panel-corner-radius: 0;
+}

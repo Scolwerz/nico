@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Hidden=false
+NoDisplay=false
+Terminal=false
+Name[en_GB]=GOverlay
+Name[hu_HU]=GOverlay
+Name=GOverlay
+Exec=/usr/share/goverlay/goverlay --style breeze
+Icon=/usr/share/goverlay/goverlay.ico

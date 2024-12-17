@@ -1,0 +1,4 @@
+# Nvidia PPA
+Package: *
+Pin: release o=LP-PPA-graphics-drivers
+Pin-Priority: 1002
